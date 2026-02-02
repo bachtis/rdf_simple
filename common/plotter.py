@@ -160,13 +160,14 @@ class plotter_base(object):
                     hi=edges[i]
                     c = "*".join([cuts,f"({var}>={lo}&&{var}<{hi})"])
                 weights = self.event_weights(c)
-                if len(weights)>0:
-                    l,h = self.poisson_bootstrap_ci(weights, n_bootstraps=self.n_bootstraps,ci_level=0.6827)
-                    weights=None
-                    low[i]=l
-                    high[i]=h
-                    d=data[i]
-#                    print(f"Poisson Bootstrap: Observation = {d} Interval E [{l},{h}]")
+                if weights is not None:
+                    if len(weights)>0:
+                        l,h = self.poisson_bootstrap_ci(weights, n_bootstraps=self.n_bootstraps,ci_level=0.6827)
+                        weights=None
+                        low[i]=l
+                        high[i]=h
+                        d=data[i]
+#                       print(f"Poisson Bootstrap: Observation = {d} Interval E [{l},{h}]")
             w2=np.array([np.square(data-low),np.square(high-data)])            
         del hist    
         if include_overflow==False:
@@ -256,8 +257,11 @@ class rdf_plotter(plotter_base):
             with open_root_file(file) as f:
                 t = f.Get('Runs')
                 sumw = 0.0
-                for event in t:
-                    sumw += event.genEventSumw
+                if t and hasattr(t, "InheritsFrom") and t.InheritsFrom("TTree"):
+                    for event in t:
+                        sumw += event.genEventSumw
+                else:
+                    print(f"File {f} does not contain an iterable Runs tree")
                 self.weight = self.weight+'*(genWeight/{})*(sample_sigma)*(Pileup_weight)'.format(sumw if sumw>0 else 1.0)
 
     def readReport(self) -> dict[str]:
@@ -279,7 +283,7 @@ class rdf_plotter(plotter_base):
     def define(self, var, definition):
         if var in self.rdf.GetColumnNames():
             self.rdf = self.rdf.Redefine(var, definition)           
-        else:    
+        else:
             self.rdf = self.rdf.Define(var, definition)
 
     def redefine(self, var, definition):
@@ -422,9 +426,15 @@ class merged_plotter(plotter_base):
         super(merged_plotter,self).__init__()
         self.plotters = plotters
 
-    def define(self, var, definition):
+    def define(self, var, definition): # Note: modified this to produce the final plots for 2022. 
+        good_plotters = []
         for plotter in self.plotters:
-            plotter.define(var, definition)
+            try:
+                plotter.define(var, definition)
+                good_plotters.append(plotter)
+            except Exception as e:
+                print(f"Warning! {plotter.file} could not be given {var} definition.")
+        self.plotters = good_plotters
 
     def filter(self, condition):
         for plotter in self.plotters:
@@ -626,7 +636,9 @@ class fakerate_plotter(merged_plotter):
         self.cutsCR=cutsCR
         super(fakerate_plotter,self).__init__(plotters)
         self.fakeRateVar=fakeRateVar
+        print("hello 1")
         self.define(fakeRateVar,definition)
+        print("hello 2")
 
     def hist1d(self,var,cuts,model,titlex = "",units = "",variation=0):
         h=super(fakerate_plotter,self).hist1d(var,'('+cuts.replace(self.cutsSR,self.cutsCR)+f")*({self.fakeRateVar}[{variation}])",model,titlex,units)
