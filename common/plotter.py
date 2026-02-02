@@ -160,14 +160,14 @@ class plotter_base(object):
                     hi=edges[i]
                     c = "*".join([cuts,f"({var}>={lo}&&{var}<{hi})"])
                 weights = self.event_weights(c)
-                if weights is not None:
-                    if len(weights)>0:
-                        l,h = self.poisson_bootstrap_ci(weights, n_bootstraps=self.n_bootstraps,ci_level=0.6827)
-                        weights=None
-                        low[i]=l
-                        high[i]=h
-                        d=data[i]
-#                       print(f"Poisson Bootstrap: Observation = {d} Interval E [{l},{h}]")
+                if len(weights)>0:
+#                    print("Debug, poisson bootstrap weights",weights)
+                    l,h = self.poisson_bootstrap_ci(weights, n_bootstraps=self.n_bootstraps,ci_level=0.6827)
+                    weights=None
+                    low[i]=l
+                    high[i]=h
+                    d=data[i]
+#                    print(f"Poisson Bootstrap: Observation = {d} Interval E [{l},{h}]")
             w2=np.array([np.square(data-low),np.square(high-data)])            
         del hist    
         if include_overflow==False:
@@ -231,7 +231,7 @@ class plotter_base(object):
                         low[j,i]=l
                         high[j,i]=h
                         d=data[j,i]
-                        print(f"Observation = {d} Interval E [{l},{h}]")
+#                        print(f"Observation = {d} Interval E [{l},{h}]")
                     weights=None
             w2=np.array([np.square(data-low),np.square(high-data)])
         del h    
@@ -257,11 +257,8 @@ class rdf_plotter(plotter_base):
             with open_root_file(file) as f:
                 t = f.Get('Runs')
                 sumw = 0.0
-                if t and hasattr(t, "InheritsFrom") and t.InheritsFrom("TTree"):
-                    for event in t:
-                        sumw += event.genEventSumw
-                else:
-                    print(f"File {f} does not contain an iterable Runs tree")
+                for event in t:
+                    sumw += event.genEventSumw
                 self.weight = self.weight+'*(genWeight/{})*(sample_sigma)*(Pileup_weight)'.format(sumw if sumw>0 else 1.0)
 
     def readReport(self) -> dict[str]:
@@ -283,7 +280,7 @@ class rdf_plotter(plotter_base):
     def define(self, var, definition):
         if var in self.rdf.GetColumnNames():
             self.rdf = self.rdf.Redefine(var, definition)           
-        else:
+        else:    
             self.rdf = self.rdf.Define(var, definition)
 
     def redefine(self, var, definition):
@@ -426,15 +423,9 @@ class merged_plotter(plotter_base):
         super(merged_plotter,self).__init__()
         self.plotters = plotters
 
-    def define(self, var, definition): # Note: modified this to produce the final plots for 2022. 
-        good_plotters = []
+    def define(self, var, definition):
         for plotter in self.plotters:
-            try:
-                plotter.define(var, definition)
-                good_plotters.append(plotter)
-            except Exception as e:
-                print(f"Warning! {plotter.file} could not be given {var} definition.")
-        self.plotters = good_plotters
+            plotter.define(var, definition)
 
     def filter(self, condition):
         for plotter in self.plotters:
@@ -600,8 +591,8 @@ class abcd_plotter(merged_plotter):
     def getScale(self):       
         numeratorCuts = self.cutsSSB
         denominatorCuts = self.cutsCSB
-        print(numeratorCuts)
-        print(denominatorCuts)
+#        print(numeratorCuts)
+#        print(denominatorCuts)
         
         hNum=super(abcd_plotter,self).hist1d('scaleVar',numeratorCuts,('a','a',10,-5,5))
         #replace cuts with cuts from control region
@@ -636,9 +627,7 @@ class fakerate_plotter(merged_plotter):
         self.cutsCR=cutsCR
         super(fakerate_plotter,self).__init__(plotters)
         self.fakeRateVar=fakeRateVar
-        print("hello 1")
         self.define(fakeRateVar,definition)
-        print("hello 2")
 
     def hist1d(self,var,cuts,model,titlex = "",units = "",variation=0):
         h=super(fakerate_plotter,self).hist1d(var,'('+cuts.replace(self.cutsSR,self.cutsCR)+f")*({self.fakeRateVar}[{variation}])",model,titlex,units)
@@ -1131,7 +1120,7 @@ class mplhep_plotter(object):
         if show:
             plt.show()
         
-    def unrolledCustom(self,var1,var2,cuts,custom_binning,alpha=1.0,xlabel="",xunits="",legend_loc='upper right',legend_ax=-1,show=True):
+    def unrolledCustom(self,var1,var2,cuts,custom_binning,alpha=1.0,xlabel="",xunits="",ylabel="",yunits="",legend_loc='upper right',legend_ax=-1,show=True,textx=0.5,texty=0.5):
 
         fig,ax = plt.subplots(1,len(custom_binning),sharey=True,figsize=(25,10))
         plt.subplots_adjust(wspace=0)        
@@ -1156,7 +1145,7 @@ class mplhep_plotter(object):
 
             bkgExists=False        
             for p in self.plotters:
-
+            
                 if p['type']=='data':
                     edg,data,w2=p['plotter'].array1d(var2,cuts+f"*({var1}>={xedges[0]}&&{var1}<{xedges[1]})",(p['name'],p['name'],len(yedges)-1,np.array(yedges)),error_mode=p['error_mode'])
                     if self.stack==False:
@@ -1279,8 +1268,10 @@ class mplhep_plotter(object):
                                 ax=ax[i],
                                 density=(True if self.stack==False else False)                        
                                 )
-
-        #then stack backgrounds and then draw band
+            ax[i].text(textx, texty, f'{xedges[0]}'+r"$\leq$"+f"{ylabel}<{xedges[1]} "+yunits , transform=ax[i].transAxes,
+                       fontsize=20, ha='center', va='center', 
+                       bbox=dict(facecolor='white',edgecolor='none', alpha=0.5))
+            #then stack backgrounds and then draw band
         ax[legend_ax].legend(loc=legend_loc)
 
         #Labels
@@ -1309,6 +1300,94 @@ class mplhep_plotter(object):
         
 
 
+#class for limits
+class limit_plotter(object):
+    def __init__(self,filename,label=None,lumi=137.62,data=True,com=13):
+        mh.style.use('CMS')
+        self.label=label
+        self.lumi=lumi
+        self.com=com
+        self.data=data
+        self.rdf = ROOT.RDataFrame('limit',filename)
+
+    def brazilian_flag(self,band2sigma_color='lime',band1sigma_color='yellow',ax=None,show=False,quiet=False,legend_loc='upper right',xlabel='',xunits='',ylabel='95% CL Upper Limits'):
+        expected025=self.rdf.Filter('TMath::Abs(quantileExpected-0.025)<0.001').AsNumpy(['mh','limit'])
+        expected16=self.rdf.Filter('TMath::Abs(quantileExpected-0.16)<0.001').AsNumpy(['mh','limit'])
+        expected=self.rdf.Filter('TMath::Abs(quantileExpected-0.5)<0.001').AsNumpy(['mh','limit'])
+        expected84=self.rdf.Filter('TMath::Abs(quantileExpected-0.84)<0.001').AsNumpy(['mh','limit'])
+        expected975=self.rdf.Filter('TMath::Abs(quantileExpected-0.975)<0.001').AsNumpy(['mh','limit'])
+        observed=self.rdf.Filter('quantileExpected==-1').AsNumpy(['mh','limit'])
+#        import pdb;pdb.set_trace()
+        if ax==None:
+            fig,ax = plt.subplots()
+        
+            
+        ax.fill_between(expected025['mh'],
+                        expected025['limit'],
+                        expected975['limit'],
+                        color=band2sigma_color, alpha=1,label=r'$\pm$ 2 std. deviations')            
+        ax.fill_between(expected16['mh'],
+                        expected16['limit'],
+                        expected84['limit'],
+                        color=band1sigma_color, alpha=1,label=r'$\pm$ 1 std. deviation')            
+        
+        ax.plot(expected['mh'],expected['limit'],linestyle='--',color='k',label=r'Asymptotic $CL_s$ expected')
+        ax.plot(observed['mh'],observed['limit'],color='k',label='Observed')
+        ax.margins(x=0)
+                     
+        if quiet==False:
+            ax.legend(loc=legend_loc)
+            if xlabel!="":
+                ax.set_xlabel(f"{xlabel} ({xunits})")
+            if ylabel!="":
+                ax.set_ylabel(ylabel)
+            if self.data==True:
+                mh.cms.label(self.label, data=self.data, lumi=self.lumi, com=self.com,ax=ax, loc=0)
+            else:
+                mh.cms.label(self.label, data=self.data, lumi=None, com=None,rlabel=f'{self.com} TeV',ax=ax, loc=0)
+        if show:
+            plt.tight_layout()                            
+            plt.show()
+        
+
+
+class multilimit_plotter(object):
+    def __init__(self,plotters,label=None,lumi=137.62,data=True,com=13):
+        mh.style.use('CMS')
+        self.label=label
+        self.lumi=lumi
+        self.com=com
+        self.data=data
+
+        self.plotters=plotters
+
+    def brazilian_flag(self,band2sigma_color='lime',band1sigma_color='yellow',show=False,legend_loc='upper right',xlabel='',xunits='',ylabel='95% CL Upper Limits'):
+        
+        fig,ax = plt.subplots(1,len(self.plotters),sharey=True,figsize=(50,10))
+        plt.subplots_adjust(wspace=0)
+        for i , plotter in enumerate(self.plotters):
+            plotter['plotter'].brazilian_flag(band2sigma_color=band2sigma_color,band1sigma_color=band1sigma_color,ax=ax[i],show=False,quiet=True)
+            
+
+        ax[-1].legend(loc=legend_loc)
+        if xlabel!="":
+            ax[-1].set_xlabel(f"{xlabel} ({xunits})")
+        if ylabel!="":
+            ax[0].set_ylabel(ylabel)
+        mh.cms.label(self.label,data=self.data,rlabel="", ax=ax[0], loc=0)
+        if self.data==False:
+            mh.cms.label(None,exp='',data=self.data,llabel="", ax=ax[-1], loc=0,lumi=None,com=None,rlabel=f'{self.com} TeV')
+        else:
+            mh.cms.label(None,exp='',data=self.data,llabel="", ax=ax[-1], loc=0,lumi=self.lumi,com=self.com)
+        ax[0].set_yscale('log')
+        plt.tight_layout()
+        
+        if show:
+            
+            plt.show()
+        
+        
+        
 
 
 

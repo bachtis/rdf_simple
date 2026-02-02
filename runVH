@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import optparse
-from analysis.VHpost_Run3 import *
+from analysis.VHpost import *
 
 
 #debugging code

@@ -21,7 +21,9 @@ def make_jsonHelper(fjson):
 def load_meta_data(data):
     dataframe = {}
     #Declare dataframe
-    dataframe['Events'] =ROOT.RDataFrame('Events',data['files'])   
+    dataframe['Events'] =ROOT.RDataFrame('Events',data['files']) 
+    n_events = dataframe['Events'].Count().GetValue()
+    print("Current dataframe has (pre) ", n_events)  
     # Apply golden JSON
     if not data['isMC']:
         jsonhelper = None
@@ -48,6 +50,10 @@ def load_meta_data(data):
     dataframe['Runs'] = ROOT.RDataFrame("Runs", data['files'])
     dataframe['isMC'] = data['isMC']
     dataframe['customNanoAOD'] = data['customNanoAOD']
+
+    n_events = dataframe['Events'].Count().GetValue()
+    print("Current dataframe has (post) ", n_events)
+
     return dataframe
 
 
