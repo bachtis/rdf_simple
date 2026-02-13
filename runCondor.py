@@ -67,7 +67,7 @@ for d,info in samp.samples.items():
         echo $OUTDIR
         for FILE in *.root
         do
-        xrdcp -f ${{FILE}} ${{OUTDIR}}/{dataset}_${{FILE}} 2>&1
+        xrdcp -f ${{FILE}} ${{OUTDIR}}/${{FILE}} 2>&1
         XRDEXIT=$?
         if [[ $XRDEXIT -ne 0 ]]; then
         rm *.root
@@ -104,35 +104,42 @@ for d,info in samp.samples.items():
         time.sleep(0.1)
     else:
         for i in range(0,info['jobs']):
-            filename="{redirect}/{sample}_{i}_{sample}.root".format(redirect=options.eos,i=i,sample=d)
+            filename="{redirect}/{sample}_{i}.root".format(redirect=options.eos,i=i,sample=d)
             if check_file(filename):
                 if options.verbose:
                     print ('Filename exists = {}.Will not submit'.format(filename)) 
                 continue
 
             shell="""#!/bin/sh
-            echo starting script
-            tar -xzvf sandbox.tar.gz
-            mkdir .dasmaps
-            source ./setup.sh
-            python3 run.py {dataset} -s {splitFactor} -p {part} -a {analysis}
-            echo python done
-        
-            OUTDIR={eos}
-            echo "xrdcp output for condor to "
-            echo $OUTDIR
-            for FILE in *.root
-            do
-            xrdcp -f ${{FILE}} ${{OUTDIR}}/{dataset}_{part}_${{FILE}} 2>&1
-            XRDEXIT=$?
-            if [[ $XRDEXIT -ne 0 ]]; then
-            rm *.root
-            echo "exit code $XRDEXIT, failure in xrdcp"
-            exit $XRDEXIT
-            fi
-            rm ${{FILE}}
-            done
-            """.format(dataset=d,eos=options.eos,splitFactor=info['jobs'],part=i,analysis=options.analysis)
+echo starting script
+tar -xzvf sandbox.tar.gz
+mkdir .dasmaps
+source ./setup.sh
+
+# --- PROXY SETUP ---
+export X509_USER_PROXY=/afs/cern.ch/user/e/ebenjami/grid_proxy.x509
+voms-proxy-info -all
+
+python3 run.py {dataset} -s {splitFactor} -p {part} -a {analysis}
+echo python done
+
+OUTDIR={eos}
+echo "xrdcp output for condor to "
+echo $OUTDIR
+
+for FILE in *.root
+do
+  xrdcp -f ${{FILE}} ${{OUTDIR}}/${{FILE}}_{part} 2>&1
+  XRDEXIT=$?
+  if [[ $XRDEXIT -ne 0 ]]; then
+    rm *.root
+    echo "exit code $XRDEXIT, failure in xrdcp"
+    exit $XRDEXIT
+  fi
+  rm ${{FILE}}
+done
+""".format(dataset=d,eos=options.eos,splitFactor=info['jobs'],part=i,analysis=options.analysis)
+
          #   print(shell)
             f=open("{dataset}_{part}_condor.sh".format(dataset=d,part=i),"w")
             f.write(shell)
@@ -140,16 +147,17 @@ for d,info in samp.samples.items():
             os.system('chmod +x {dataset}_{part}_condor.sh'.format(dataset=d,part=i))
             
             condor="""
-            universe = vanilla
-            Executable = {dataset}_{part}_condor.sh
-            should_transfer_files = YES
-            Transfer_Input_Files = sandbox.tar.gz
-            when_to_transfer_output = ON_EXIT
-            Output = condor_{dataset}_{part}_$(Cluster)_$(Process).stdout
-            Error = condor_{dataset}_{part}_$(Cluster)_$(Process).stderr
-            Log = condor_{dataset}_{part}_$(Cluster)_$(Process).log
-            Queue 1
-            """.format(dataset=d,part=i)
+universe = vanilla
+Executable = {dataset}_{part}_condor.sh
+should_transfer_files = YES
+Transfer_Input_Files = sandbox.tar.gz, $(X509_USER_PROXY)
+when_to_transfer_output = ON_EXIT
+Output = condor_{dataset}_{part}_$(Cluster)_$(Process).stdout
+Error = condor_{dataset}_{part}_$(Cluster)_$(Process).stderr
+Log = condor_{dataset}_{part}_$(Cluster)_$(Process).log
+Queue 1
+""".format(dataset=d,part=i)
+
             f=open("{dataset}_{part}_condor.jdl".format(dataset=d,part=i),"w")
             f.write(condor)
             f.close()
