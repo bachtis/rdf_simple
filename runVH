@@ -28,7 +28,7 @@ if __name__ == '__main__':
               signals=signals,
               lifetimes=[int(s) for s in (options.lifetimes.split(','))],
               signal_br=0.01,
-              blinded=False,
+              blinded=options.blind,
               file_extension='pdf')
     
     

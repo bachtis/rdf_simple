@@ -9,7 +9,7 @@ opts.fOverwriteIfExists = True
 from common.pyhelpers import load_meta_data
 
 
-cols = ".*best_2g.*|sample_.*|^Photon_.*|^Muon_.*|nMuon|nElectron|nPhoton|^Z.*|^W.*|Weight.*|^Gen.*|^weight.*|^TrigObj_.*|^event.*|^Electron_.*|^Pileup_.*|^MET_.*|^run.*|^luminosityBlock.*"
+cols = ".*best_2g.*|sample_.*|^Photon_.*|^Muon_.*|nMuon|nElectron|nPhoton|^Z.*|^W.*|Weight.*|^Gen.*|^weight.*|^TrigObj_.*|^event.*|^Electron_.*|^Pileup_.*|^MET_.*|^run.*|^luminosityBlock.*|^DeepMETResolutionTune.*|^PuppiMET.*|^PFMET.*"
 
 
 # Muon trigger[era][par], par = ['name', 'bits', 'pt']
@@ -190,6 +190,7 @@ def makeZ_fsr(dataframe, lepton):
 
 def makeW(dataframe, lepton):
     Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, MET_pt, MET_phi)".format(L=lepton, l = lepton.lower()))
+    #Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, PFMET_pt, PFMET_phi)".format(L=lepton, l = lepton.lower())) # for 2024
     Ws = Ws.Define("W_pt", "bestW_info[0]")
     Ws = Ws.Define("W_eta", "bestW_info[1]")
     Ws = Ws.Define("W_phi", "bestW_info[2]")

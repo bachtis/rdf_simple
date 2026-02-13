@@ -1,8 +1,8 @@
 samples = {}
 
 # Import samples for all eras
-for era in ['2016','2017','2018']:
-    for s in ['mc','signal','data']:
+for era in ['2017']:
+    for s in ['data'] : #for s in ['mc','signal','data']:
         cmd = """
 from analysis.samples.VHsamples_{s}_{era} import *
 for s in samples_{s}_{era}:

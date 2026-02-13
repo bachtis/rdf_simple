@@ -1439,6 +1439,45 @@ class multilimit_plotter(object):
         
 
 
+class multilimit_plotter(object):
+    def __init__(self,plotters,label=None,lumi=137.62,data=True,com=13):
+        mh.style.use('CMS')
+        self.label=label
+        self.lumi=lumi
+        self.com=com
+        self.data=data
+
+        self.plotters=plotters
+
+    def brazilian_flag(self,band2sigma_color='lime',band1sigma_color='yellow',show=False,legend_loc='upper right',xlabel='',xunits='',ylabel='95% CL Upper Limits'):
+        
+        fig,ax = plt.subplots(1,len(self.plotters),sharey=True,figsize=(50,10))
+        plt.subplots_adjust(wspace=0)
+        for i , plotter in enumerate(self.plotters):
+            plotter['plotter'].brazilian_flag(band2sigma_color=band2sigma_color,band1sigma_color=band1sigma_color,ax=ax[i],show=False,quiet=True)
+            
+
+        ax[-1].legend(loc=legend_loc)
+        if xlabel!="":
+            ax[-1].set_xlabel(f"{xlabel} ({xunits})")
+        if ylabel!="":
+            ax[0].set_ylabel(ylabel)
+        mh.cms.label(self.label,data=self.data,rlabel="", ax=ax[0], loc=0)
+        if self.data==False:
+            mh.cms.label(None,exp='',data=self.data,llabel="", ax=ax[-1], loc=0,lumi=None,com=None,rlabel=f'{self.com} TeV')
+        else:
+            mh.cms.label(None,exp='',data=self.data,llabel="", ax=ax[-1], loc=0,lumi=self.lumi,com=self.com)
+        ax[0].set_yscale('log')
+        plt.tight_layout()
+        
+        if show:
+            
+            plt.show()
+        
+        
+        
+
+
 
 
             
