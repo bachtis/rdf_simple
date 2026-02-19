@@ -425,7 +425,11 @@ class merged_plotter(plotter_base):
 
     def define(self, var, definition):
         for plotter in self.plotters:
-            plotter.define(var, definition)
+            try:
+                plotter.define(var, definition)
+            except:
+                print("[MERGED-PLOTTER] definition failed!")
+                continue
 
     def filter(self, condition):
         for plotter in self.plotters:
@@ -455,9 +459,15 @@ class merged_plotter(plotter_base):
         h = None
         for plotter in self.plotters:
             if h is None:
-                h = plotter.hist1d(var, cuts, model, titlex, units)
+                try:
+                    h = plotter.hist1d(var, cuts, model, titlex, units)
+                except:
+                    continue
             else:
-                h.Add(plotter.hist1d(var, cuts, model, titlex, units))
+                try:
+                    h.Add(plotter.hist1d(var, cuts, model, titlex, units))
+                except:
+                    continue
         if h is None:
             tmprdf = ROOT.RDataFrame(1)
             tmprdf = tmprdf.Define("x", "0")
@@ -479,9 +489,19 @@ class merged_plotter(plotter_base):
         h = None
         for plotter in self.plotters:
             if h is None:
-                h = plotter.hist2d(var1,var2, cuts, model, titlex, unitsx, titley, unitsy)
+                try:
+                    h = plotter.hist2d(var1,var2, cuts, model, titlex, unitsx, titley, unitsy)
+                    #print("[MERGED-PLOTTER] cuts good...")
+                except:
+                    #print("[MERGED-PLOTTER] cuts failed!")
+                    continue
             else:
-                h.Add(plotter.hist2d(var1,var2, cuts, model, titlex, unitsx, titley, unitsy))
+                try:
+                    h.Add(plotter.hist2d(var1,var2, cuts, model, titlex, unitsx, titley, unitsy))
+                    #print("[MERGED-PLOTTER] cuts good...")
+                except:
+                    #print("[MERGED-PLOTTER] cuts failed!")
+                    continue                    
         if h is None:
             return h
         else:
