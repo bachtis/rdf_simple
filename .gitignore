@@ -1,0 +1,3 @@
+./condor_*.stderr
+./condor_*.stdout
+./condor_*.log
