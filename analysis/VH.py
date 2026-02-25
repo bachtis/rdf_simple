@@ -38,6 +38,7 @@ eleTrig = {'2024': [{'name': 'HLT_Ele30_WPTight_Gsf', 'bits': 2, 'pt': 32}],
            '2016postVFP': [{'name': 'HLT_Ele27_WPTight_Gsf', 'bits': 2, 'pt': 27}],
            '2016preVFP': [{'name': 'HLT_Ele27_WPTight_Gsf', 'bits': 2, 'pt': 27}]}
           
+era = ""         
 # Common Object ID:
 def muonAna(dataframe, era = '2018'):
     # Common Muon ID definitions (No isolation)
@@ -189,8 +190,10 @@ def makeZ_fsr(dataframe, lepton):
     return Zgs
 
 def makeW(dataframe, lepton):
-    Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, MET_pt, MET_phi)".format(L=lepton, l = lepton.lower()))
-    #Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, PFMET_pt, PFMET_phi)".format(L=lepton, l = lepton.lower())) # for 2024
+    if "2024" in era:
+        Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, PFMET_pt, PFMET_phi)".format(L=lepton, l = lepton.lower())) 
+    else:
+        Ws = dataframe.Define("bestW_info", "best_W_info({L}_pt, {L}_eta, {L}_phi, {L}_mass, tight_{l}, MET_pt, MET_phi)".format(L=lepton, l = lepton.lower()))
     Ws = Ws.Define("W_pt", "bestW_info[0]")
     Ws = Ws.Define("W_eta", "bestW_info[1]")
     Ws = Ws.Define("W_phi", "bestW_info[2]")
@@ -537,6 +540,7 @@ def zmumuH(data,phi_mass,sample):
 def analysis(data,sample):
     phi_mass=[15,20,30,40,50,55]
     actions = []
+    era = data["era"]
     actions.extend(zmumuH(data,phi_mass,sample))
     actions.extend(zeeH(data,phi_mass,sample))
     actions.extend(wmunuH(data,phi_mass,sample))

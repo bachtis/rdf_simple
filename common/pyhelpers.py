@@ -30,6 +30,8 @@ def load_meta_data(data):
         if "era" in data.keys():
             if os.path.exists("data/JSON_{}.txt".format(data['era'][:4])): # Non-elegant way to remove pre/postVFP from era definition
                 jsonhelper = make_jsonHelper("data/JSON_{}.txt".format(data['era'][:4]))
+            else:
+                raise Exception("[LOAD-META-DATA] JSON not found - check it now.")
         if jsonhelper is not None:
             dataframe['Events'] = dataframe['Events'].Define("isGoodLumi", jsonhelper, ["run", "luminosityBlock"])
         else:
