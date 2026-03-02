@@ -4,19 +4,61 @@
 
 samples_mc_2024 = {
 #2024 DY+Jets MC
-'DYJetsToLL_M50_LO_NoPU_v6_v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/Run3Winter24NanoAOD-NoPU_Pilot_133X_mcRun3_2024_realistic_v6-v2/NANOAODSIM',
-                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
-                         'veto_triggers': [],
-                         'era': '2024',
-                         'jobs': 8,
-                         'sigma': 5669.0}, 
+# 'DYJetsToLL_M50_LO_NoPU_v6_v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/Run3Winter24NanoAOD-NoPU_Pilot_133X_mcRun3_2024_realistic_v6-v2/NANOAODSIM',
+#                          'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+#                          'veto_triggers': [],
+#                          'era': '2024',
+#                          'jobs': 8,
+#                          'sigma': 5669.0}, 
 
-'DYJetsToLL_M50_LO_v26-v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/RunIII2024Summer24NanoAOD-Pilot2024wmLHEGS_140X_mcRun3_2024_realistic_v26-v2/NANOAODSIM',
+# 'DYJetsToLL_M50_LO_v26-v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/RunIII2024Summer24NanoAOD-Pilot2024wmLHEGS_140X_mcRun3_2024_realistic_v26-v2/NANOAODSIM',
+#                          'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+#                          'veto_triggers': [],
+#                          'era': '2024',
+#                          'jobs': 8,
+#                          'sigma': 5634.0}, 
+
+'DYJetsToLL_M50_LO_v1-v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-Pilot2024wmLHEGS_150X_mcRun3_2024_realistic_v1-v2/NANOAODSIM',
                          'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                          'veto_triggers': [],
                          'era': '2024',
                          'jobs': 8,
-                         'sigma': 5634.0}, 
+                         'sigma': 5558.0}, 
+
+'DYJetsToLL_M50_LO_v2-v2_2024': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-Pilot2024wmLHEGS_150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                         'veto_triggers': [],
+                         'era': '2024',
+                         'jobs': 8,
+                         'sigma': 5558.0}, 
+
+'DYJetsToLL_M50_PTLL100_v2-v2_2024': {'dataset': '/DYto2L-2Jets_Bin-MLL-50-PTLL-100_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM',
+                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                         'veto_triggers': [],
+                         'era': '2024',
+                         'jobs': 8,
+                         'sigma': 106.6}, 
+
+'DYJetsToLL_M50_PTLL200_v2-v2_2024': {'dataset': '/DYto2L-2Jets_Bin-MLL-50-PTLL-200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v1/NANOAODSIM',
+                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                         'veto_triggers': [],
+                         'era': '2024',
+                         'jobs': 8,
+                         'sigma': 10.83}, 
+
+'DYJetsToLL_M50_PTLL400_v2-v2_2024': {'dataset': '/DYto2L-2Jets_Bin-MLL-50-PTLL-400_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                         'veto_triggers': [],
+                         'era': '2024',
+                         'jobs': 8,
+                         'sigma': 0.5943}, 
+
+'DYJetsToLL_M50_PTLL600_v2-v2_2024': {'dataset': '/DYto2L-2Jets_Bin-MLL-50-PTLL-600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v3/NANOAODSIM',
+                         'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                         'veto_triggers': [],
+                         'era': '2024',
+                         'jobs': 8,
+                         'sigma': 0.8108}, 
 
 #2024 W+Jets MC
 'WJetsToLNu_4Jets_1J_2024': {'dataset': '/WtoLNu-4Jets_Bin-1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
@@ -52,7 +94,7 @@ samples_mc_2024 = {
                          'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                          'veto_triggers': [],
                          'era': '2024',
-                         'jobs': 8,
+                         'jobs': 12,
                          'sigma': 58.25}, 
 
 'TTJetstoLminusNu2Q_3Jets_2024': {'dataset': '/TTtoLminusNu2Q-3Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
@@ -69,29 +111,29 @@ samples_mc_2024 = {
                          'jobs': 8,
                          'sigma': 117.1}, 
 
-#2024 W+Gamma MC
-'WGtoLNuG_1Jets_PTG-100_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-100_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+# #2024 W+Gamma MC
+'WGToLNuG_1Jets_PTG-100_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-100_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
                        'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                        'veto_triggers': [],
                        'era': '2024',
                        'jobs': 8,
                        'sigma': 2.551},
 
-'WGtoLNuG_1Jets_PTG-200_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+'WGToLNuG_1Jets_PTG-200_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
                        'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                        'veto_triggers': [],
                        'era': '2024',
                        'jobs': 8,
                        'sigma': 0.3176}, 
 
-'WGtoLNuG_1Jets_PTG-400_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-400_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+'WGToLNuG_1Jets_PTG-400_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-400_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
                        'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                        'veto_triggers': [],
                        'era': '2024',
                        'jobs': 8,
                        'sigma': 0.02642}, 
 
-'WGtoLNuG_1Jets_PTG-600_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
+'WGToLNuG_1Jets_PTG-600_2024': {'dataset': '/WGtoLNuG-1Jets_Bin-PTG-600_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM',
                        'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                        'veto_triggers': [],
                        'era': '2024',

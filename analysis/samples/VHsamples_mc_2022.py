@@ -3,7 +3,7 @@
 #source for calculating cross sections using GenXSecAnalyzer: https://twiki.cern.ch/twiki/bin/view/CMSPublic/GeneratorsHATSatLPC2019InDevelopment#Using_GenXSecAnalyzer
 
 samples_mc_2022 = {
-# 2022 DY+Jets MC
+# # 2022 DY+Jets MC
 'DYJetsToLL_M50_LO_2022postEE': {'dataset': '/DYJetsToLL_M-50_TuneCP5_13p6TeV-madgraphMLM-pythia8/Run3Summer22EENanoAODv11-forPOG_126X_mcRun3_2022_realistic_postEE_v1-v1/NANOAODSIM',
                          'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                          'veto_triggers': [],
@@ -18,13 +18,90 @@ samples_mc_2022 = {
                          'jobs': 8,
                          'sigma': 5558.0},
 
-# 2022 W+Jets MC
-'WJetsToLNu_LO_2022postEE': {'dataset': '/WJetsToLNu_TuneCP5_13p6TeV-madgraphMLM-pythia8/Run3Winter22NanoAOD-122X_mcRun3_2021_realistic_v9-v1/NANOAODSIM',
+# # 2022 W+Jets MC
+'WJetsToLNu_2Jets_2022preEE': {'dataset': '/WtoLNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 67710.},
+
+'WJetsToLNu_2Jets_0J_2022preEE': {'dataset': '/WtoLNu-2Jets_0J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v3/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 55760.},
+
+'WJetsToLNu_2Jets_1J_2022postEE': {'dataset': '/WtoLNu-2Jets_1J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
                        'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                        'veto_triggers': [],
                        'era': '2022postEE',
                        'jobs': 8,
-                       'sigma': 56120.},
+                       'sigma': 9529.},
+
+'WJetsToLNu_2Jets_1J_2022preEE': {'dataset': '/WtoLNu-2Jets_1J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 9529.},
+
+'WJetsToLNu_2Jets_2J_2022postEE': {'dataset': '/WtoLNu-2Jets_2J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022postEE',
+                       'jobs': 8,
+                       'sigma': 3532.},
+
+'WJetsToLNu_2Jets_2J_2022preEE': {'dataset': '/WtoLNu-2Jets_2J_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 3532.},
+
+'WJetsToLNu_4Jets_1J_2022postEE': {'dataset': '/WtoLNu-4Jets_1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022postEE',
+                       'jobs': 8,
+                       'sigma': 9084.},
+
+'WJetsToLNu_4Jets_1J_2022preEE': {'dataset': '/WtoLNu-4Jets_1J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v1/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 9084.},
+
+'WJetsToLNu_4Jets_2J_2022postEE': {'dataset': '/WtoLNu-4Jets_2J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022postEE',
+                       'jobs': 8,
+                       'sigma': 2925.},
+
+'WJetsToLNu_4Jets_2J_2022preEE': {'dataset': '/WtoLNu-4Jets_2J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v1/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 2925.},
+
+'WJetsToLNu_4Jets_3J_2022postEE': {'dataset': '/WtoLNu-4Jets_3J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022postEE',
+                       'jobs': 8,
+                       'sigma': 861.7},
+
+'WJetsToLNu_4Jets_3J_2022preEE': {'dataset': '/WtoLNu-4Jets_3J_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM',
+                       'triggers': ['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
+                       'veto_triggers': [],
+                       'era': '2022preEE',
+                       'jobs': 8,
+                       'sigma': 861.7},
 
 #2022 tt+Jets MC
 'TTJetsto2L2Nu_2Jets_2022postEE': {'dataset': '/TTto2L2Nu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v3/NANOAODSIM',
@@ -71,7 +148,7 @@ samples_mc_2022 = {
                        'sigma': 191.5}, 
 
 
-#2022 W+Gamma MC
+# #2022 W+Gamma MC
 'WGtoLNuG_1Jets_PTG100to200_2022postEE': {'dataset':'/WGtoLNuG-1Jets_PTG-100to200_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EENanoAODv12-130X_mcRun3_2022_realistic_postEE_v6-v2/NANOAODSIM',
                            'triggers':['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                            'veto_triggers':[],
@@ -143,7 +220,7 @@ samples_mc_2022 = {
                            'sigma':0.004907},
 
 
-#2022 tt+Gamma
+# #2022 tt+Gamma
 
 'TTGJets_1Jets_PTG-100to200_2022preEE': {'dataset':'/TTG-1Jets_PTG-100to200_TuneCP5_13p6TeV_amcatnloFXFXold-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v3/NANOAODSIM',
                            'triggers':['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
@@ -174,7 +251,7 @@ samples_mc_2022 = {
                            'sigma':4.237},
 
 
-#2022 tt+GammaGamma
+# #2022 tt+GammaGamma
 'TTGG_LO_2022preEE': {'dataset': '/TTGG_TuneCP5_13p6TeV_madgraph-madspin-pythia8/Run3Summer22NanoAODv11-126X_mcRun3_2022_realistic_v2-v2/NANOAODSIM',
                            'triggers':['(HLT_IsoMu24||HLT_Ele30_WPTight_Gsf)'],
                            'veto_triggers':[],
