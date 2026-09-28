@@ -20,5 +20,16 @@ python3 runCondor.py -a VH -o root://cmseos.fnal.gov//store/user/<your username>
 ```
 Make sure that you have write access to the EOS area you define with -o . This is where the output files will be stored 
 
+After all the jobs finish running in condor do:
+
+```
+rm *condor* sandbox.*  
+```
+
+And then you can rerun the runCondor.py command. It will now submit only jobs that failed
+After all the jobs are done you can properly merge samples by using the mergeOutput command:
+```
+python3 mergeOutput.py -o <eos directory>  -a VH -O <local_directory> -y <Years of data taking> -d <primary datasets>
+```
 
 
