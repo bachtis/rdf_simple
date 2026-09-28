@@ -16,7 +16,7 @@ Examples using Displaced Di-photon analysis
   ```
 - Submit datasets to condor
 ```
-python3 runCondor.py -o root://cmseos.fnal.gov//store/user/<your username>/analysis  
+python3 runCondor.py -a VH -o root://cmseos.fnal.gov//store/user/<your username>/analysis  
 ```
 Make sure that you have write access to the EOS area you define with -o . This is where the output files will be stored 
 
